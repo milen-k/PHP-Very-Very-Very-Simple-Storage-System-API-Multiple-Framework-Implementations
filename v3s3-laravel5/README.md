@@ -4,6 +4,7 @@ A Very Very Very Simple Storage System (V3s3) RESTful API written in Laravel 5<b
 This is part of a collection of repositories which provides an implementation of a simple storage system RESTful API using different PHP Frameworks. The project aims to directly compare the differences in setup and syntax between each of the represented frameworks.<br />
 <br />
 See the Wiki page for a hyperlinked list of all the repositories in the collection.
+<hr />
 
 # THE DEVELOPMENT PROCESS
 **1. INSTALLING LARAVEL**
@@ -12,10 +13,12 @@ cd /path/to/htdocs
 composer create-project --prefer-dist laravel/laravel v3s3-laravel5
 ```
 <br />
+
 **2. CONFIGURING APACHE**
 The project's document root should be `/path/to/htdocs/v3s3-laravel5/public`.<br />
 If you want to avoid the overhead caused by Apache when parsing `.htaccess` files you can disable config overriding by setting `AllowOverride None` on the project root directory and use your global Apache configuration _(ex. httpd.conf)_. Check the `/path/to/htdocs/v3s3-laravel5/example_apache_virtualhost.conf` file for reference.<br />
 <br />
+
 **3. CODE GENERATOR**
 Laravel 5 comes with a command line interface (CLI) located at `/path/to/htdocs/v3s3-laravel5/artisan`. It can be used to create a basic (skeleton) version of some of the project-specific components.
 ```
@@ -28,6 +31,7 @@ This creates 2 files:<br />
 The classes have neither methods nor properties.<br />
 A "CRUD" version of the controller could be created by passing an extra parameter like so: `php artisan make:model --controller --resource -- V3s3`. This will add `index`, `create`, `store`, `show`, `edit`, `update`, `destroy` methods to the `V3s3Controller` class along with some dependencies injected in some of the methods as parameters. The **V3s3 API** is non-standard and has only 4 methods.<br />
 <br />
+
 **4. FRAMEWORK CONFIG AND EXCLUSION OF LOCAL PARAMETERS**
 Laravel has a local parameters file which is excluded using `.gitignore`:<br />
 **/path/to/htdocs/v3s3-laravel5/.env** (database connection credentials are be specified here; the project uses `mysql-v3s3` as connection name (`DB_CONNECTION` value); the `.env.example` file contains an example template)<br />
@@ -41,12 +45,15 @@ The routes are organized in so-called "route groups" with the `api.php` routes f
 The **"api"** routes are prefixed with an `/api` segment so if we want to use the `api.php` file all URL paths will need to start with `/api`. This behavior can be altered by removing the `prefix('api')` on lines 68 and the `->` on line 69 in `/path/to/htdocs/v3s3-laravel5/app/Providers/RouteServiceProvider.php`.<br />
 This project uses the `web.php` file for specifying the API routes. By default Laravel 5 loads several "middleware" for the **"web"** group with some of them completely irrelevant for a RESTful API (like session and cookie services) and a CSRF token verify service which causes a `TokenMismatchException` on data submission requests (like PUT and POST) if no token has been provided. Thus these services should be commented out in `/path/to/htdocs/v3s3-laravel5/app/Http/Kernel.php` which will also save some of the overhead caused by loading them.<br />
 <br />
+
 **5. ROUTING**
 Other than the above routing is pretty straightforward and specified in the `/path/to/htdocs/v3s3-laravel5/routes/web.php` file.<br />
 <br />
+
 **6. THE MODEL**
 The database table which the model is associated with is specified in the model class `protected $table` property.<br />
 <br />
+
 **7. I18N**
 Laravel 5 supports PHP array file translation resources and the files are stored in the `/path/to/htdocs/v3s3-laravel5/resources/lang/<language id>` directory. 
 # NOTABLE NEW/MODIFIED PROJECT-SPECIFIC FILES
